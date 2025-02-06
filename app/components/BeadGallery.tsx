@@ -2,12 +2,10 @@
 
 import { useEffect, useState } from 'react';
 import { useSearchParams } from 'next/navigation';
-import { getBeads, createTestBeads, deleteAllBeads } from '../lib/beads';
 import EmotionBead from './EmotionBead';
 import { supabase } from '../lib/supabase';
 import { emotions } from '../types/emotions';
 import EmotionDistribution from './EmotionDistribution';
-import { useRouter } from 'next/navigation';
 
 interface BeadData {
   id: string;
@@ -23,19 +21,13 @@ interface EmotionCount {
   count: number;
 }
 
-interface BeadGalleryProps {
-  initialBead?: BeadData | null;
-}
-
-export default function BeadGallery({ initialBead }: BeadGalleryProps) {
+export default function BeadGallery() {
   const searchParams = useSearchParams();
   const reviewId = searchParams.get('reviewId');
   const [beads, setBeads] = useState<BeadData[]>([]);
-  const [isLoading, setIsLoading] = useState(false);
   const [fetchedCount, setFetchedCount] = useState(0);
   const [newBeadId, setNewBeadId] = useState<string | null>(null);
   const [hoveredBead, setHoveredBead] = useState<string | null>(null);
-  const router = useRouter();
   const [isPlaying, setIsPlaying] = useState(false);
 
   // 초기 구슬 목록 가져오기
@@ -100,57 +92,7 @@ export default function BeadGallery({ initialBead }: BeadGalleryProps) {
     };
   }, []);
 
-  const handleCreateTestBeads = async () => {
-    setIsLoading(true);
-    try {
-      const { data: allBeadsData, error } = await supabase
-        .from('fyf')
-        .select('*, emotions')
-        .order('created_at', { ascending: true })
-        .range(fetchedCount, fetchedCount);
-
-      if (error) throw error;
-      
-      if (allBeadsData && allBeadsData.length > 0) {
-        const beadData = allBeadsData[0];
-        
-        // 1. DB에서 가져온 데이터 확인
-        console.log('DB에서 가져온 감정 데이터:', beadData.emotions);
-
-        // 2. 감정 ID 배열이 맞는지 확인하고, 아니라면 배열로 변환
-        const emotionIds = Array.isArray(beadData.emotions) 
-          ? beadData.emotions 
-          : typeof beadData.emotions === 'string'
-            ? JSON.parse(beadData.emotions)
-            : [beadData.emotions].filter(Boolean);
-
-        console.log('변환된 감정 ID 배열:', emotionIds);
-
-        // 3. 각 ID에 해당하는 emotion 객체 찾기
-        const foundEmotions = emotionIds.map(id => 
-          emotions.find(e => e.id === id)
-        ).filter(Boolean);
-
-        console.log('찾은 감정 객체들:', foundEmotions);
-        console.log('구슬에 사용될 색상들:', foundEmotions.map(e => e.color));
-
-        const transformedBead = {
-          ...beadData,
-          emotions: emotionIds  // 변환된 ID 배열 사용
-        };
-
-        setNewBeadId(transformedBead.id);
-        setBeads(prev => [transformedBead, ...prev]);
-        setFetchedCount(prev => prev + 1);
-      }
-    } catch (error) {
-      console.error('Failed to fetch bead:', error);
-    }
-    setIsLoading(false);
-  };
-
   const handleDeleteAllBeads = async () => {
-    setIsLoading(true);
     try {
       const { error } = await supabase
         .from('fyf')
@@ -164,7 +106,6 @@ export default function BeadGallery({ initialBead }: BeadGalleryProps) {
     } catch (error) {
       console.error('Failed to delete beads:', error);
     }
-    setIsLoading(false);
   };
 
   // 감정 횟수를 계산하는 함수
@@ -188,7 +129,6 @@ export default function BeadGallery({ initialBead }: BeadGalleryProps) {
   useEffect(() => {
     if (reviewId) {
       const fetchSpecificBead = async () => {
-        setIsLoading(true);
         try {
           const { data: beadData, error } = await supabase
             .from('fyf')
@@ -216,7 +156,6 @@ export default function BeadGallery({ initialBead }: BeadGalleryProps) {
         } catch (error) {
           console.error('Failed to fetch specific bead:', error);
         }
-        setIsLoading(false);
       };
 
       fetchSpecificBead();
@@ -286,8 +225,7 @@ export default function BeadGallery({ initialBead }: BeadGalleryProps) {
             >
               <EmotionBead 
                 emotions={bead.emotions}
-                textLength={bead.review?.length || 0}
-                disableBreathing={true}  // breathing 효과 비활성화
+                disableBreathing={true}
               />
               
               {/* Hover 팝업 */}
