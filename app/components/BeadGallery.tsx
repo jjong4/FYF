@@ -7,12 +7,6 @@ import { supabase } from '../lib/supabase';
 import { emotions } from '../types/emotions';
 import EmotionDistribution from './EmotionDistribution';
 
-interface BeadData {
-  id: string;
-  emotions: string[];
-  review?: string;
-  created_at: string;
-}
 
 interface EmotionCount {
   title: string;
@@ -22,7 +16,7 @@ interface EmotionCount {
 export default function BeadGallery() {
   const searchParams = useSearchParams();
   const reviewId = searchParams.get('reviewId');
-  const [beads, setBeads] = useState<BeadData[]>([]);
+  const [beads, setBeads] = useState<beadData[]>([]);
   const [newBeadId, setNewBeadId] = useState<string | null>(null);
   const [hoveredBead, setHoveredBead] = useState<string | null>(null);
   const [isPlaying, setIsPlaying] = useState(false);
@@ -68,7 +62,7 @@ export default function BeadGallery() {
           table: 'fyf'
         },
         (payload) => {
-          const newBead = payload.new as BeadData;
+          const newBead = payload.new as beadData;
           const transformedBead = {
             ...newBead,
             emotions: Array.isArray(newBead.emotions)
