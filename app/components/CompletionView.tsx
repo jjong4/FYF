@@ -50,7 +50,7 @@ export default function CompletionView({ emotions, onAnimationEnd, reviewId }: C
           <div className="scale-100">  {/* 크기 고정을 위한 추가 wrapper */}
             <EmotionBead
               emotions={emotions}
-              textLength={0}
+              // textLength={0}
               disableBreathing={true}
             />
           </div>

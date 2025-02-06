@@ -8,7 +8,7 @@ import { supabase } from '../lib/supabase';
 export default function GalleryPage() {
   const searchParams = useSearchParams();
   const reviewId = searchParams.get('reviewId');
-  const [initialBead, setInitialBead] = useState(null);
+  const [, setInitialBead] = useState(null);
 
   useEffect(() => {
     if (reviewId) {
@@ -44,7 +44,7 @@ export default function GalleryPage() {
 
   return (
     <main>
-      <BeadGallery initialBead={initialBead} />
+      <BeadGallery  />
     </main>
   );
 } 

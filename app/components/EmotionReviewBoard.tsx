@@ -161,7 +161,7 @@ export default function EmotionReviewBoard() {
         <div ref={beadRef} className="scale-75 md:scale-100 -mt-2">
           <EmotionBead 
             emotions={selectedEmotions}
-            textLength={0}
+            // textLength={0}
           />
         </div>
 
