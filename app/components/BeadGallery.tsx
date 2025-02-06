@@ -7,6 +7,12 @@ import { supabase } from '../lib/supabase';
 import { emotions } from '../types/emotions';
 import EmotionDistribution from './EmotionDistribution';
 
+interface beadData {
+  id: string;
+  emotions: string[];
+  review?: string;
+  created_at: string;
+}
 
 interface EmotionCount {
   title: string;
