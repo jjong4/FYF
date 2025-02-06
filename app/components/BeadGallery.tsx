@@ -7,14 +7,7 @@ import { supabase } from '../lib/supabase';
 import { emotions } from '../types/emotions';
 import EmotionDistribution from './EmotionDistribution';
 
-interface BeadData {
-  id: string;
-  emotions: string[];
-  emotion_types: string[];
-  emotion_count: number;
-  review?: string;
-  created_at: string;
-}
+
 
 interface EmotionCount {
   title: string;
@@ -156,14 +149,18 @@ export default function BeadGallery() {
           {isPlaying ? '🔊' : '🔈'}
         </button>
         <audio
-          src="/bgm.mp3"  // public 폴더에 음악 파일 필요
+          src="/bgm.mp3"
           loop
           autoPlay={false}
           onPlay={() => setIsPlaying(true)}
           onPause={() => setIsPlaying(false)}
           ref={(audio) => {
             if (audio) {
-              isPlaying ? audio.play() : audio.pause();
+              if (isPlaying) {
+                audio.play();
+              } else {
+                audio.pause();
+              }
             }
           }}
         />
