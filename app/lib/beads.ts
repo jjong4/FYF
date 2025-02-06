@@ -2,7 +2,7 @@ import { supabase } from './supabase';
 import { emotions } from '../types/emotions';
 
 // 구슬 데이터 타입 정의
-interface Bead {
+interface BeadData {
   id: string;
   emotions: string[];
   emotion_types: string[];

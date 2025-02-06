@@ -4,12 +4,11 @@ import { emotions } from '../types/emotions';
 
 interface EmotionBeadProps {
   emotions: string[];  // emotion ids
-  textLength: number;
   disableBreathing?: boolean;  // 새로운 prop 추가
   className?: string;
 }
 
-export default function EmotionBead({ emotions: emotionIds, textLength, disableBreathing = false }: EmotionBeadProps) {
+export default function EmotionBead({ emotions: emotionIds, disableBreathing = false }: EmotionBeadProps) {
   // 각 감정의 등장 횟수 계산
   const emotionCounts = emotionIds.reduce((acc, id) => {
     acc[id] = (acc[id] || 0) + 1;

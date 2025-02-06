@@ -25,7 +25,6 @@ export default function BeadGallery() {
   const searchParams = useSearchParams();
   const reviewId = searchParams.get('reviewId');
   const [beads, setBeads] = useState<BeadData[]>([]);
-  const [fetchedCount, setFetchedCount] = useState(0);
   const [newBeadId, setNewBeadId] = useState<string | null>(null);
   const [hoveredBead, setHoveredBead] = useState<string | null>(null);
   const [isPlaying, setIsPlaying] = useState(false);
@@ -91,22 +90,6 @@ export default function BeadGallery() {
       supabase.removeChannel(channel);
     };
   }, []);
-
-  const handleDeleteAllBeads = async () => {
-    try {
-      const { error } = await supabase
-        .from('fyf')
-        .delete()
-        .not('id', 'is', null);
-        
-      if (error) throw error;
-      setBeads([]);
-      setFetchedCount(0);
-      setNewBeadId(null);
-    } catch (error) {
-      console.error('Failed to delete beads:', error);
-    }
-  };
 
   // 감정 횟수를 계산하는 함수
   const getEmotionCounts = (emotionIds: string[]): EmotionCount[] => {
