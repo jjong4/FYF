@@ -29,16 +29,16 @@ export default function EmotionBead({ emotions: emotionIds, disableBreathing = f
           background: `
             radial-gradient(
               circle at center,
-              rgba(255, 255, 255, 0.7) 0%,
-              rgba(240, 240, 255, 0.6) 25%,
-              rgba(230, 240, 255, 0.6) 50%,
-              rgba(240, 240, 255, 0.6) 75%,
-              rgba(255, 255, 255, 0.7) 100%
+              rgba(255, 255, 255, 0.1) 0%,
+              rgba(240, 240, 255, 0.1) 25%,
+              rgba(230, 240, 255, 0.1) 50%,
+              rgba(240, 240, 255, 0.1) 75%,
+              rgba(240, 249, 255, 0.3) 100%
             )
           `,
-          border: '1px solid rgba(255, 255, 255, 0.3)',
-          filter: 'blur(0.5px)',
-          boxShadow: '0 0 20px rgba(255, 255, 255, 0.2)',
+          border: '1px solid rgba(221, 241, 255, 0.6)',
+          filter: 'blur(2px)',
+          boxShadow: '4 4 40px rgba(145, 198, 255, 0.8)',
         }}
       />
 
@@ -50,13 +50,13 @@ export default function EmotionBead({ emotions: emotionIds, disableBreathing = f
 
         // 감정 중복 횟수에 따른 색상 세기 조정
         const count = emotionCounts[emotion.id];
-        const opacity = Math.min(0.1 + (count - 1) * 0.15, 0.9); // 기본 0.3, 중복당 0.2씩 증가, 최대 0.9
+        const opacity = Math.min(0.5 + (count - 1) * 0.6, 1); // 기본 0.3, 중복당 0.2씩 증가, 최대 0.9
 
         const style = {
           background: `radial-gradient(
             circle at ${x}% ${y}%,
-            ${emotion?.color} 0%,
-            ${emotion?.color} ${10 + count * 12}%,
+            ${emotion?.color} 2%,
+            ${emotion?.color} ${12 + count * 8}%,
             transparent 54%
           )`,
           animationDelay: `${index * 0.05}s`,
@@ -66,7 +66,7 @@ export default function EmotionBead({ emotions: emotionIds, disableBreathing = f
         return (
           <div
             key={`${emotion?.id}-${index}`}
-            className="absolute inset-0 w-[300px] h-[300px] rounded-full animate-ink-absorb mix-blend-color"
+            className="absolute inset-0 w-[300px] h-[300px] rounded-full animate-ink-absorb mix-blend-overlay"
             style={style}
           />
         );
@@ -74,13 +74,13 @@ export default function EmotionBead({ emotions: emotionIds, disableBreathing = f
 
       {/* 구슬의 광택 효과 */}
       <div 
-        className="absolute inset-0 w-[300px] h-[300px] rounded-full"
+        className="absolute inset-0 w-[200px] h-[200px] rounded-full"
         style={{
           background: `
             radial-gradient(
-              circle at 80% 80%,
+              circle at 10% 10%,
               rgba(255, 255, 255, 0.2) 0%,
-              transparent 90%
+              transparent 10%
             )
           `,
           pointerEvents: 'none',
