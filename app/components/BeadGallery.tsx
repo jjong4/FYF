@@ -211,14 +211,14 @@ export default function BeadGallery() {
               
               {/* Hover 팝업 */}
               {hoveredBead === bead.id && (
-                <div className="absolute left-1/2 top-1/24 -translate-x-1/2 -translate-y-1/2 bg-white/64 backdrop-blur-xl rounded-lg p-4 min-w-[240px] shadow-lg z-10">
+                <div className="absolute left-1/2 top-[-200px] -translate-x-1/2 bg-white/64 backdrop-blur-lg rounded-lg p-4 min-w-[240px] shadow-lg z-10">
                   <div className="text-sm font-bold mb-2 text-[white]">감정 상세</div>
                   {getEmotionCounts(bead.emotions).map((item, i) => {
                     const emotion = emotions.find(e => e.title === item.title);
                     return (
                       <div key={i} className="flex justify-between items-center text-sm mb-1">
                         <span style={{ color: emotion?.color }}>{item.title}</span>
-                        <span className="ml-2 text-[#white]">{item.count}회</span>
+                        <span className="ml-2 text-[#333333]">{item.count}회</span>
                       </div>
                     );
                   })}
@@ -229,8 +229,8 @@ export default function BeadGallery() {
                   
                   {/* Review 내용 */}
                   <div className="mt-4 pt-4 border-t border-white/20">
-                    <div className="text-sm font-bold mb-2 text-[#333333]">이야기</div>
-                    <div className="text-sm text-[#333333] break-words">
+                    <div className="text-sm font-bold mb-2 text-[white]">이야기</div>
+                    <div className="text-sm text-[#white] break-words">
                       {bead.review || "리뷰 내용이 없습니다."}
                     </div>
                   </div>
